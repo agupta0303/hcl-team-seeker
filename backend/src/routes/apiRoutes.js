@@ -36,19 +36,58 @@ const diseases = [
         risk: "HIGH RISK",
         description: "A class of diseases that involve the heart or blood vessels, including coronary artery disease, heart attack, and stroke.",
         riskFactors: ["High blood pressure", "High cholesterol", "Smoking", "Diabetes", "Obesity", "Family history"],
+        warningSigns: ["Chest pain or discomfort", "Shortness of breath", "Pain, numbness, weakness or coldness in your legs or arms", "Pain in the neck, jaw, throat, upper abdomen or back"],
+        prevention: ["Eat a healthy diet", "Maintain a healthy weight", "Exercise regularly", "Don't smoke", "Limit alcohol"],
+        screening: ["Blood pressure screening", "Cholesterol testing", "Blood sugar tests"],
     },
     {
         name: "Diabetes",
         risk: "MEDIUM RISK",
         description: "A chronic condition that affects how your body turns food into energy.",
         riskFactors: ["Being overweight", "Age 45 or older", "Family history", "Physical inactivity", "High blood pressure"],
+        warningSigns: ["Increased thirst", "Frequent urination", "Extreme hunger", "Unexplained weight loss", "Fatigue", "Blurred vision"],
+        prevention: ["Lose extra weight", "Be more physically active", "Eat healthy plant foods", "Eat healthy fats", "Make healthier food choices"],
+        screening: ["A1C test", "Fasting blood sugar test", "Glucose tolerance test"],
     },
     {
         name: "Hypertension (High Blood Pressure)",
         risk: "LOW RISK",
         description: "A condition in which the force of the blood against the artery walls is too high.",
         riskFactors: ["Excess salt intake", "Stress", "Obesity", "Lack of exercise", "Family history"],
+        warningSigns: ["Often has no symptoms (the 'silent killer')", "Severe headaches", "Nosebleeds", "Fatigue or confusion", "Vision problems"],
+        prevention: ["Eat a healthy diet with less salt", "Exercise regularly", "Maintain a healthy weight", "Limit alcohol", "Manage stress"],
+        screening: ["Regular blood pressure checks at doctor's visits", "Home blood pressure monitoring"],
     },
+];
+
+let goals = [
+    {
+        id: 1,
+        title: 'Daily Steps Goal',
+        description: 'Walk 10,000 steps every day',
+        progress: 8234,
+        target: 10000,
+        unit: 'steps',
+        deadlineDays: 31,
+    },
+    {
+        id: 2,
+        title: 'Sleep Improvement',
+        description: 'Get 8 hours of sleep every night',
+        progress: 6.5,
+        target: 8,
+        unit: 'hours',
+        deadlineDays: 61,
+    },
+    {
+        id: 3,
+        title: 'Hydration Goal',
+        description: 'Drink 8 glasses of water daily',
+        progress: 6,
+        target: 8,
+        unit: 'glasses',
+        deadlineDays: 18,
+    }
 ];
 
 // Admin routes
@@ -97,6 +136,27 @@ router.get('/patient/profile', protect, (req, res) => {
         primaryPhysician: "Dr. Sarah Miller",
         insuranceProvider: "BlueCross Health"
     });
+});
+
+router.get('/patient/goals', protect, (req, res) => {
+    res.json(goals);
+});
+
+router.post('/patient/goals', protect, (req, res) => {
+    const { title, description, target, unit, deadlineDays } = req.body;
+    
+    const newGoal = {
+        id: goals.length > 0 ? Math.max(...goals.map(g => g.id)) + 1 : 1,
+        title: title || 'New Goal',
+        description: description || '',
+        progress: 0,
+        target: Number(target) || 100,
+        unit: unit || 'units',
+        deadlineDays: Number(deadlineDays) || 30,
+    };
+    
+    goals.push(newGoal);
+    res.status(201).json(newGoal);
 });
 
 module.exports = router;

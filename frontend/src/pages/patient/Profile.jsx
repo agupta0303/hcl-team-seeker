@@ -1,26 +1,13 @@
+<<<<<<< HEAD
 import React from "react";
+=======
+import React, { useState, useEffect } from "react";
+import api from "../../services/api/axios";
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
 
 export default function Profile() {
     return (
-        <div className="flex min-h-screen bg-gray-100">
-
-            {/* Sidebar */}
-            <div className="w-64 bg-blue-900 text-white p-6">
-                <h2 className="text-lg font-semibold mb-6">Patient Portal</h2>
-
-                <ul className="space-y-4">
-                    <li className="hover:text-gray-300 cursor-pointer">Dashboard</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Profile</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Wellness Goals</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Medical History</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Preventive Measures</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Appointments</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Messages</li>
-                </ul>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 p-8">
+        <div className="w-full">
 
                 {/* Page Title */}
                 <h1 className="text-2xl font-semibold mb-6">
@@ -89,6 +76,7 @@ export default function Profile() {
                                 disabled
                             />
                         </div>
+<<<<<<< HEAD
 
                         <div>
                             <label className="text-sm font-medium">Date of Birth</label>
@@ -240,6 +228,10 @@ export default function Profile() {
 
             </div>
 
+=======
+                    </>
+                )}
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
         </div>
     );
 }

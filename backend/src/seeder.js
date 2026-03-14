@@ -7,7 +7,11 @@ const seedUsers = async () => {
     try {
         await connectDB();
 
+<<<<<<< HEAD
         // Clear existing collections
+=======
+        // Clear existing users to prevent duplicates if run multiple times
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
         await User.deleteMany();
 
         const demoUsers = [
@@ -31,6 +35,7 @@ const seedUsers = async () => {
             }
         ];
 
+<<<<<<< HEAD
         let createdUsers = [];
         for (const userData of demoUsers) {
             const user = new User(userData);
@@ -42,8 +47,24 @@ const seedUsers = async () => {
         process.exit();
     } catch (error) {
         console.error('Error seeding data:', error);
+=======
+        // Insert documents one by one to trigger the `pre('save')` hooks for bcrypt hashing
+        for (const userData of demoUsers) {
+            const user = new User(userData);
+            await user.save();
+        }
+
+        console.log('Demo users seeded successfully!');
+        process.exit();
+    } catch (error) {
+        console.error('Error seeding users:', error);
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
         process.exit(1);
     }
 };
 
+<<<<<<< HEAD
 seedUsers();
+=======
+seedUsers();
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963

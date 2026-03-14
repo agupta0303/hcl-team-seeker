@@ -11,6 +11,7 @@ const Login = () => {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+<<<<<<< HEAD
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +35,37 @@ const Login = () => {
       setError(err.response?.data?.message || 'Failed to login. Please check credentials.');
     } finally {
       setIsLoading(false);
+=======
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const data = await login(email, password);
+      
+      // Route based on role
+      switch (data.role) {
+        case 'Admin':
+          navigate('/admin/dashboard');
+          break;
+        case 'Doctor':
+          navigate('/provider/dashboard');
+          break;
+        case 'Patient':
+        default:
+          navigate('/patient/dashboard');
+          break;
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to login');
+      console.error(err);
+    } finally {
+      setLoading(false);
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
     }
   };
 
@@ -57,12 +89,17 @@ const Login = () => {
           </div>
 
           {error && (
+<<<<<<< HEAD
             <div className="mb-4 p-3 bg-red-50 text-red-600 border border-red-100 rounded-md text-sm">
+=======
+            <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
               {error}
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-5">
+            {error && <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">{error}</div>}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input 
@@ -87,8 +124,13 @@ const Login = () => {
               />
             </div>
 
+<<<<<<< HEAD
             <Button type="submit" variant="primary" className="w-full font-bold" disabled={isLoading}>
               {isLoading ? 'Signing In...' : 'Sign In'}
+=======
+            <Button type="submit" variant="primary" className="w-full font-bold" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign In'}
+>>>>>>> 493331fbab929bf44385670dbfb85a564a6a0963
             </Button>
           </form>
 
