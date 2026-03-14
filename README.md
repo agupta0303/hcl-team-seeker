@@ -14,7 +14,7 @@ Anushka Gupta (HCL Hacker - local system username used in commits)
 
 Ananya Thakur
 
-Pragya Batra
+Pragya Batra(Neo-system username for commits)
 
 Tagline
 
