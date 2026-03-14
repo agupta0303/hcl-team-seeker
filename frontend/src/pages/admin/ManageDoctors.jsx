@@ -27,7 +27,7 @@ const ManageDoctors = () => {
         <div className="px-6 mb-6">
           <h3 className="text-lg font-semibold text-slate-800">Doctors List</h3>
           <p className="text-sm text-slate-500 mb-6">View and manage all healthcare providers</p>
-          
+
           {/* Search Bar */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">

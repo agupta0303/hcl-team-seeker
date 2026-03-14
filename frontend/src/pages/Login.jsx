@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Label } from '../components/ui/Label';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // In a real app, you would validate credentials here.
-    // For now, we simulate a successful login and redirect to a dashboard.
-    navigate('/');
+    setError(null);
+    setIsLoading(true);
+    
+    try {
+      const user = await login(email, password);
+      
+      // Redirect based on role
+      if (user.role === 'Admin') {
+        navigate('/admin/dashboard');
+      } else if (user.role === 'Doctor') {
+        navigate('/provider/dashboard');
+      } else {
+        navigate('/patient/dashboard');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to login. Please check credentials.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,6 +56,12 @@ const Login = () => {
             <p className="text-sm text-gray-500">Enter your credentials to access the portal</p>
           </div>
 
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 text-red-600 border border-red-100 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -40,6 +69,8 @@ const Login = () => {
                 id="email" 
                 type="email" 
                 placeholder="your@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required 
               />
             </div>
@@ -50,12 +81,14 @@ const Login = () => {
                 id="password" 
                 type="password" 
                 placeholder="********" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required 
               />
             </div>
 
-            <Button type="submit" variant="primary" className="w-full font-bold">
-              Sign In
+            <Button type="submit" variant="primary" className="w-full font-bold" disabled={isLoading}>
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 
