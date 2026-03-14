@@ -1,97 +1,113 @@
-# HCL HACKATHON TEAM SEEKER
+WellPath — Healthcare Wellness & Preventive Care Portal
 
-**Project Name**
-[Your project name]
 
-**Tagline**
-[One sentence — what it does and who it's for]
 
----
 
-**About the Project**
-[2–3 sentences giving context. What space does your project live in? Why does it matter?]
 
----
 
-**The Problem**
-[Describe the specific pain point. Who is affected? Why do current solutions fall short?]
 
----
+Team
 
-**Our Solution**
-[What you built and what makes it different or clever.]
+Tanvi Aher (Neo – local system username used in commits)
 
-What makes it unique:
-- [ ]
-- [ ]
+Anushka Gupta
 
----
+Ananya Thakur
 
-**Tech Stack**
-- Frontend: [ ]
-- Backend: [ ]
-- AI / ML: [ ]
-- Database: [ ]
-- Other APIs: [ ]
+Pragya Batra
 
----
+Tagline
 
-**Architecture**
-[How the parts connect — e.g. User → Frontend → API → AI Model → Database. Describe each hop in one line.]
+A personalized wellness dashboard that helps patients track health metrics while enabling healthcare providers to monitor preventive care compliance in real time.
 
----
+About the Project
 
-**Key Features**
-1. [Feature name] — [what it does and why it's impressive]
-2. [ ]
-3. [ ]
-4. [ ]
-5. [ ]
+WellPath is a preventive healthcare platform that connects patients and healthcare providers through a unified digital portal.
 
----
+Patients can track wellness metrics and preventive care goals, while providers gain visibility into patient health data between appointments, enabling early risk detection and proactive healthcare.
 
-**Demo**
-- Live URL: [ ]
-- Demo video: [ ]
-- Screenshots: [describe what each screenshot shows]
+Key Features
 
----
+Customizable health dashboard
 
-**Getting Started**
-Prerequisites: [ ]
-Install steps: [ ]
-Environment variables needed: [ ]
-Command to run: [ ]
+Real-time risk indicators (🟢 🟡 🔴)
 
----
+Patient & provider role-based portals
 
-**How It Works (Technical Depth)**
-[Explain your core algorithm, ML pipeline, data flow, or key API integration. This is where you show technical depth.]
+Preventive healthcare knowledge base
 
----
+Secure authentication with JWT and bcrypt
 
-**Biggest Challenge**
-[What was the hardest problem? How did you solve it?]
+Tech Stack
 
-**What We Learned**
-- [ ]
-- [ ]
+Frontend
+React.js, Tailwind CSS, React Router
 
----
+Backend
+Node.js, Express.js
 
-**Roadmap**
-- [ ]
-- [ ]
-- [ ]
+Database
+MongoDB Atlas
 
----
+Security
+JWT Authentication, bcrypt password hashing
 
-**Team**
-- [Name] — [Role]
-- [Name] — [Role]
-- [Name] — [Role]
+Architecture Diagram
 
----
+Flow
 
-**Hackathon**
-[Hackathon name, theme, and year]
+Patient / Provider → React Frontend → Express API → MongoDB Database → Cloud Deployment
+
+Screenshots
+Patient Profile Dashboard
+
+Manage personal health information and medical records through a clean dashboard interface.
+
+Health Details Panel
+
+Patients can track medical history, medications, allergies, and other health metrics.
+
+Project Workflow
+
+1️⃣ Patient logs into the portal
+2️⃣ Health metrics and wellness goals are tracked
+3️⃣ Backend evaluates risk indicators
+4️⃣ Providers view patient status and preventive compliance
+
+Getting Started
+
+Clone the repository
+
+git clone https://github.com/agupta0303/hcl-team-seeker
+cd hcl-team-seeker
+
+Install dependencies
+
+cd backend
+npm install
+
+cd ../frontend
+npm install
+
+Run the project
+
+# Backend
+cd backend
+npm run dev
+
+# Frontend
+cd frontend
+npm run dev
+Future Improvements
+
+Wearable device integration (Fitbit, Apple Health)
+
+AI-based health risk predictions
+
+EHR integration via FHIR APIs
+
+Preventive care notifications
+
+Hackathon
+
+HCLTech Internal Hackathon 2026 — Healthcare Innovation Track
