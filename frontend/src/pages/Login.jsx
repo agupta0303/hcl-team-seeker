@@ -62,6 +62,12 @@ const Login = () => {
             <p className="text-sm text-gray-500">Enter your credentials to access the portal</p>
           </div>
 
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-5">
             {error && <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">{error}</div>}
             <div className="space-y-2">

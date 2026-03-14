@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../services/api/axios";
+import api from "../../services/api/axios";
 
 export default function Profile() {
     const [profile, setProfile] = useState(null);
@@ -24,25 +24,7 @@ export default function Profile() {
     const lastName = profile?.fullName?.split(' ')[1] || "Name";
 
     return (
-        <div className="flex min-h-screen bg-gray-100">
-
-            {/* Sidebar */}
-            <div className="w-64 bg-blue-900 text-white p-6">
-                <h2 className="text-lg font-semibold mb-6">Patient Portal</h2>
-
-                <ul className="space-y-4">
-                    <li className="hover:text-gray-300 cursor-pointer">Dashboard</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Profile</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Wellness Goals</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Medical History</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Preventive Measures</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Appointments</li>
-                    <li className="hover:text-gray-300 cursor-pointer">Messages</li>
-                </ul>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 p-8">
+        <div className="w-full">
 
                 {/* Page Title */}
                 <h1 className="text-2xl font-semibold mb-6">
@@ -265,8 +247,6 @@ export default function Profile() {
                         </div>
                     </>
                 )}
-            </div>
-
         </div>
     );
 }

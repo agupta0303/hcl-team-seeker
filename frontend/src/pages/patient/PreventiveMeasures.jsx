@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../services/api/axios";
+import api from "../../services/api/axios";
 
 export default function PreventiveMeasures() {
     const [activeTab, setActiveTab] = useState("risk");
@@ -22,25 +22,7 @@ export default function PreventiveMeasures() {
     }, []);
 
     return (
-        <div className="flex h-screen bg-gray-100">
-
-            {/* Sidebar */}
-            <div className="w-64 bg-blue-900 text-white p-6">
-                <h2 className="text-lg font-semibold mb-6">Patient Portal</h2>
-
-                <ul className="space-y-4 text-sm">
-                    <li>🏠 Dashboard</li>
-                    <li>👤 Profile</li>
-                    <li>🎯 Wellness Goals</li>
-                    <li>📄 Medical History</li>
-                    <li className="font-semibold">🛡 Preventive Measures</li>
-                    <li>📅 Appointments</li>
-                    <li>💬 Messages</li>
-                </ul>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 overflow-y-auto p-8">
+        <div className="w-full">
 
                 <h1 className="text-xl font-semibold mb-6">
                     Healthcare Wellness Portal
@@ -129,7 +111,6 @@ export default function PreventiveMeasures() {
                         </div>
                     ))
                 )}
-            </div>
         </div>
     );
 }

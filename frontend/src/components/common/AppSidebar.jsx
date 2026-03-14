@@ -15,10 +15,7 @@ const navItems = [
   { icon: Home, label: 'Dashboard', path: '/patient/dashboard' },
   { icon: User, label: 'Profile', path: '/patient/profile' },
   { icon: Target, label: 'Wellness Goals', path: '/patient/wellness-goals' },
-  { icon: FileText, label: 'Medical History', path: '/patient/medical-history' },
   { icon: Shield, label: 'Preventive Measures', path: '/patient/preventive-measures' },
-  { icon: Calendar, label: 'Appointments', path: '/patient/appointments' },
-  { icon: MessageSquare, label: 'Messages', path: '/patient/messages' },
 ];
 
 export const AppSidebar = ({ isOpen, onClose }) => {
