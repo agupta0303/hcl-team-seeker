@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, UserPlus, Trash2 } from 'lucide-react';
+import api from '../../../services/api/axios';
 
 const ManageDoctors = () => {
-    const doctors = [
-        { id: 1, name: "Dr. Jane Doe", email: "jane.doe@example.com", specialty: "Cardiology", license: "MD123456", org: "City Hospital", patients: 150, joined: "6/15/2015" },
-        { id: 2, name: "Dr. John Smith", email: "john.smith@example.com", specialty: "Endocrinology", license: "MD789012", org: "County Clinic", patients: 120, joined: "3/20/2018" },
-        { id: 3, name: "Dr. Emily Johnson", email: "emily.johnson@example.com", specialty: "Internal Medicine", license: "MD345678", org: "Community Health Center", patients: 90, joined: "8/10/2020" },
-    ];
+    const [doctors, setDoctors] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            try {
+                const { data } = await api.get('/doctors');
+                setDoctors(data || []);
+            } catch (error) {
+                console.error("Failed to fetch doctors", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDoctors();
+    }, []);
 
     return (
         <div className="space-y-6 pb-10">
@@ -42,40 +55,49 @@ const ManageDoctors = () => {
                 </div>
 
                 {/* Doctors Table */}
-                <div className="overflow-x-auto border-t border-slate-100">
-                    <table className="w-full text-left border-collapse min-w-max">
-                        <thead>
-                            <tr className="border-b border-slate-200 text-sm font-semibold text-slate-800">
-                                <th className="p-4 pl-6">Name</th>
-                                <th className="p-4">Email</th>
-                                <th className="p-4">Specialty</th>
-                                <th className="p-4">License</th>
-                                <th className="p-4">Organization</th>
-                                <th className="p-4">Patients</th>
-                                <th className="p-4">Joined</th>
-                                <th className="p-4 pr-6 text-right cursor-pointer">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-sm">
-                            {doctors.map((doc) => (
-                                <tr key={doc.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors last:border-0">
-                                    <td className="p-4 pl-6 font-medium text-slate-900">{doc.name}</td>
-                                    <td className="p-4 text-slate-600">{doc.email}</td>
-                                    <td className="p-4 text-slate-600">{doc.specialty}</td>
-                                    <td className="p-4 text-slate-600">{doc.license}</td>
-                                    <td className="p-4 text-slate-600">{doc.org}</td>
-                                    <td className="p-4 text-slate-600">{doc.patients}</td>
-                                    <td className="p-4 text-slate-600">{doc.joined}</td>
-                                    <td className="p-4 pr-8 text-right">
-                                        <button className="text-red-500 hover:text-red-700 transition-colors p-1.5 hover:bg-red-50 inline-flex rounded items-center">
-                                            <Trash2 className="h-4 w-4" />
-                                        </button>
-                                    </td>
+                {loading ? (
+                    <div className="p-8 text-center text-gray-500">Loading doctors...</div>
+                ) : (
+                    <div className="overflow-x-auto border-t border-slate-100">
+                        <table className="w-full text-left border-collapse min-w-max">
+                            <thead>
+                                <tr className="border-b border-slate-200 text-sm font-semibold text-slate-800">
+                                    <th className="p-4 pl-6">Name</th>
+                                    <th className="p-4">Email</th>
+                                    <th className="p-4">Specialty</th>
+                                    <th className="p-4">License</th>
+                                    <th className="p-4">Organization</th>
+                                    <th className="p-4">Patients</th>
+                                    <th className="p-4">Joined</th>
+                                    <th className="p-4 pr-6 text-right cursor-pointer">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="text-sm">
+                                {doctors.map((doc) => (
+                                    <tr key={doc.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors last:border-0">
+                                        <td className="p-4 pl-6 font-medium text-slate-900">{doc.name}</td>
+                                        <td className="p-4 text-slate-600">{doc.email}</td>
+                                        <td className="p-4 text-slate-600">{doc.specialty}</td>
+                                        <td className="p-4 text-slate-600">{doc.license}</td>
+                                        <td className="p-4 text-slate-600">{doc.org}</td>
+                                        <td className="p-4 text-slate-600">{doc.patients}</td>
+                                        <td className="p-4 text-slate-600">{doc.joined}</td>
+                                        <td className="p-4 pr-8 text-right">
+                                            <button className="text-red-500 hover:text-red-700 transition-colors p-1.5 hover:bg-red-50 inline-flex rounded items-center">
+                                                <Trash2 className="h-4 w-4" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {doctors.length === 0 && (
+                                    <tr>
+                                        <td colSpan="8" className="p-4 text-center text-gray-500">No doctors found.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     );

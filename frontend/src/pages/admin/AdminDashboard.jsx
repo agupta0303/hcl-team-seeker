@@ -1,34 +1,33 @@
-import React from "react";
-
-const stats = [
-    { title: "Total Patients", value: "1,245" },
-    { title: "Appointments Today", value: "38" },
-    { title: "High Risk Patients", value: "52" },
-    { title: "Messages Pending", value: "17" },
-];
-
-const alerts = [
-    {
-        name: "John Smith",
-        condition: "High Blood Pressure",
-        risk: "High Risk",
-    },
-    {
-        name: "Maria Garcia",
-        condition: "Diabetes",
-        risk: "Medium Risk",
-    },
-    {
-        name: "David Lee",
-        condition: "Cardiovascular Risk",
-        risk: "High Risk",
-    },
-];
+import React, { useState, useEffect } from "react";
+import api from "../../../services/api/axios";
 
 export default function AdminDashboard() {
+    const [stats, setStats] = useState([]);
+    const [alerts, setAlerts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                const { data } = await api.get('/admin/dashboard');
+                setStats(data.stats || []);
+                setAlerts(data.alerts || []);
+            } catch (error) {
+                console.error("Failed to fetch admin dashboard data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, []);
+
+    if (loading) {
+        return <div className="p-8 text-center text-gray-500">Loading dashboard data...</div>;
+    }
+
     return (
         <div className="flex h-screen bg-gray-100">
-
             {/* Sidebar */}
             <div className="w-64 bg-blue-900 text-white p-6">
                 <h2 className="text-lg font-semibold mb-6">Admin Portal</h2>
@@ -46,7 +45,6 @@ export default function AdminDashboard() {
 
             {/* Main Content */}
             <div className="flex-1 p-8 overflow-y-auto">
-
                 <h1 className="text-2xl font-semibold mb-6">
                     Healthcare Admin Dashboard
                 </h1>
@@ -91,6 +89,11 @@ export default function AdminDashboard() {
                                     </td>
                                 </tr>
                             ))}
+                            {alerts.length === 0 && (
+                                <tr>
+                                    <td colSpan="3" className="py-3 text-center text-gray-500">No high risk alerts.</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

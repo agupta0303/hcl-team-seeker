@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import api from "../../../services/api/axios";
 
 export default function AdminProfile() {
+    const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const { data } = await api.get('/admin/profile');
+                setProfile(data);
+            } catch (error) {
+                console.error("Failed to fetch admin profile", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+    if (loading) {
+        return <div className="p-8 text-center text-gray-500">Loading profile...</div>;
+    }
+
     return (
         <div className="flex h-screen bg-gray-100">
 
@@ -31,8 +54,8 @@ export default function AdminProfile() {
                     <div className="mb-4">
                         <label className="text-sm text-gray-600">First Name</label>
                         <input
-                            className="w-full border rounded-md p-2 mt-1"
-                            value="Admin"
+                            className="w-full border rounded-md p-2 mt-1 bg-gray-50"
+                            value={profile?.firstName || ""}
                             readOnly
                         />
                     </div>
@@ -40,8 +63,8 @@ export default function AdminProfile() {
                     <div className="mb-4">
                         <label className="text-sm text-gray-600">Last Name</label>
                         <input
-                            className="w-full border rounded-md p-2 mt-1"
-                            value="User"
+                            className="w-full border rounded-md p-2 mt-1 bg-gray-50"
+                            value={profile?.lastName || ""}
                             readOnly
                         />
                     </div>
@@ -49,8 +72,8 @@ export default function AdminProfile() {
                     <div className="mb-4">
                         <label className="text-sm text-gray-600">Email</label>
                         <input
-                            className="w-full border rounded-md p-2 mt-1"
-                            value="admin@healthportal.com"
+                            className="w-full border rounded-md p-2 mt-1 bg-gray-50"
+                            value={profile?.email || ""}
                             readOnly
                         />
                     </div>
@@ -58,13 +81,13 @@ export default function AdminProfile() {
                     <div className="mb-4">
                         <label className="text-sm text-gray-600">Role</label>
                         <input
-                            className="w-full border rounded-md p-2 mt-1"
-                            value="Healthcare Administrator"
+                            className="w-full border rounded-md p-2 mt-1 bg-gray-50"
+                            value={profile?.role || ""}
                             readOnly
                         />
                     </div>
 
-                    <button className="bg-blue-900 text-white px-5 py-2 rounded-lg mt-4">
+                    <button className="bg-blue-900 text-white px-5 py-2 rounded-lg mt-4 hover:bg-blue-800 transition-colors">
                         Edit Profile
                     </button>
 

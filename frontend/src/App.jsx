@@ -4,23 +4,26 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PatientLayout from './pages/patient/PatientLayout';
 import Dashboard from './pages/patient/Dashboard';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<PublicLanding />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        
-        {/* Patient Routes */}
-        <Route path="/patient" element={<PatientLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          {/* Catch-all for undefined patient routes */}
-          <Route path="*" element={<Navigate to="/patient/dashboard" replace />} />
-        </Route>
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<PublicLanding />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          {/* Patient Routes */}
+          <Route path="/patient" element={<PatientLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            {/* Catch-all for undefined patient routes */}
+            <Route path="*" element={<Navigate to="/patient/dashboard" replace />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

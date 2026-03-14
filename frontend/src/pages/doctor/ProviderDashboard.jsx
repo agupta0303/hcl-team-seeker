@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, AlertCircle, Calendar } from 'lucide-react';
+import api from '../../../services/api/axios';
 
 const ProviderDashboard = () => {
-    const recentPatients = [
-        { id: 1, name: "John Smith", age: 45, lastVisit: "3/10/2026", riskLevel: "MEDIUM", conditions: "Hypertension, Pre-diabetes" },
-        { id: 2, name: "Sarah Johnson", age: 52, lastVisit: "3/12/2026", riskLevel: "HIGH", conditions: "Type 2 Diabetes, Hypertension, High Cholesterol" },
-        { id: 3, name: "Michael Brown", age: 38, lastVisit: "3/8/2026", riskLevel: "LOW", conditions: "None" },
-        { id: 4, name: "Emily Davis", age: 29, lastVisit: "3/11/2026", riskLevel: "LOW", conditions: "None" },
-        { id: 5, name: "Robert Wilson", age: 61, lastVisit: "3/9/2026", riskLevel: "HIGH", conditions: "Cardiovascular Disease, Hypertension" },
-    ];
+    const [dashboardData, setDashboardData] = useState({
+        activePatients: 0,
+        highRiskPatients: 0,
+        upcomingAppointments: 0,
+        recentPatients: []
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                const { data } = await api.get('/provider/dashboard');
+                setDashboardData(data);
+            } catch (error) {
+                console.error("Failed to fetch provider dashboard", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, []);
+
+    const { activePatients, highRiskPatients, upcomingAppointments, recentPatients } = dashboardData;
 
     const getRiskColor = (level) => {
         switch (level) {
@@ -18,6 +36,10 @@ const ProviderDashboard = () => {
             default: return 'bg-slate-500 text-white';
         }
     };
+
+    if (loading) {
+        return <div className="p-8 text-center text-slate-500">Loading dashboard...</div>;
+    }
 
     return (
         <div className="space-y-6 pb-10">
@@ -35,7 +57,7 @@ const ProviderDashboard = () => {
                         <Users className="h-5 w-5 text-slate-400" />
                     </div>
                     <div>
-                        <div className="text-3xl font-light text-slate-900 mb-1">5</div>
+                        <div className="text-3xl font-light text-slate-900 mb-1">{activePatients}</div>
                         <div className="text-sm text-slate-500">Active in your care</div>
                     </div>
                 </div>
@@ -46,7 +68,7 @@ const ProviderDashboard = () => {
                         <AlertCircle className="h-5 w-5 text-red-500" />
                     </div>
                     <div>
-                        <div className="text-3xl font-light text-slate-900 mb-1">2</div>
+                        <div className="text-3xl font-light text-slate-900 mb-1">{highRiskPatients}</div>
                         <div className="text-sm text-slate-500">Require attention</div>
                     </div>
                 </div>
@@ -57,7 +79,7 @@ const ProviderDashboard = () => {
                         <Calendar className="h-5 w-5 text-slate-400" />
                     </div>
                     <div>
-                        <div className="text-3xl font-light text-slate-900 mb-1">8</div>
+                        <div className="text-3xl font-light text-slate-900 mb-1">{upcomingAppointments}</div>
                         <div className="text-sm text-slate-500">Scheduled this month</div>
                     </div>
                 </div>
@@ -106,6 +128,11 @@ const ProviderDashboard = () => {
                                     </td>
                                 </tr>
                             ))}
+                            {recentPatients.length === 0 && (
+                                <tr>
+                                    <td colSpan="6" className="p-4 text-center text-slate-500">No recent patients found.</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
