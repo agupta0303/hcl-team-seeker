@@ -1,17 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Label } from '../components/ui/Label';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // In a real app, you would validate credentials here.
-    // For now, we simulate a successful login and redirect to a dashboard.
-    navigate('/');
+    setError('');
+    setLoading(true);
+
+    try {
+      const data = await login(email, password);
+      
+      // Route based on role
+      switch (data.role) {
+        case 'Admin':
+          navigate('/admin/dashboard');
+          break;
+        case 'Doctor':
+          navigate('/provider/dashboard');
+          break;
+        case 'Patient':
+        default:
+          navigate('/patient/dashboard');
+          break;
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to login');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,12 +63,15 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
+            {error && <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">{error}</div>}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input 
                 id="email" 
                 type="email" 
                 placeholder="your@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required 
               />
             </div>
@@ -50,12 +82,14 @@ const Login = () => {
                 id="password" 
                 type="password" 
                 placeholder="********" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required 
               />
             </div>
 
-            <Button type="submit" variant="primary" className="w-full font-bold">
-              Sign In
+            <Button type="submit" variant="primary" className="w-full font-bold" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
 

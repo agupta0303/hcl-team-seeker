@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Label } from '../components/ui/Label';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
+  
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // In a real app, you would validate credentials here and create an account.
-    // For now, we simulate a successful registration and redirect to login.
-    navigate('/login');
+    setError('');
+
+    if (password !== confirmPassword) {
+      return setError('Passwords do not match');
+    }
+
+    setLoading(true);
+
+    try {
+      // Defaulting new registrations to Patient role
+      await register(fullName, email, password, 'Patient');
+      
+      // Navigate to patient dashboard on successful registration
+      navigate('/patient/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to register account');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,12 +60,16 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleRegister} className="space-y-5">
+            {error && <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">{error}</div>}
+            
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name</Label>
               <Input 
                 id="fullName" 
                 type="text" 
                 placeholder="John Doe" 
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 required 
               />
             </div>
@@ -50,6 +80,8 @@ const Register = () => {
                 id="email" 
                 type="email" 
                 placeholder="your@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required 
               />
             </div>
@@ -60,6 +92,8 @@ const Register = () => {
                 id="password" 
                 type="password" 
                 placeholder="********" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required 
               />
             </div>
@@ -70,12 +104,14 @@ const Register = () => {
                 id="confirmPassword" 
                 type="password" 
                 placeholder="********" 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required 
               />
             </div>
 
-            <Button type="submit" variant="primary" className="w-full font-bold">
-              Sign Up
+            <Button type="submit" variant="primary" className="w-full font-bold" disabled={loading}>
+              {loading ? 'Creating account...' : 'Sign Up'}
             </Button>
           </form>
           
