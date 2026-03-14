@@ -1,5 +1,5 @@
 # HCL HACKATHON TEAM SEEKER
-hh
+
 **Project Name**
 [Your project name]
 
