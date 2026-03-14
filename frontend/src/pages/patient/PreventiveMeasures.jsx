@@ -108,6 +108,51 @@ export default function PreventiveMeasures() {
                                     </ul>
                                 </div>
                             )}
+
+                            {/* Warning Signs */}
+                            {activeTab === "warning" && (
+                                <div className="mt-6">
+                                    <h3 className="font-semibold flex items-center gap-2">
+                                        🚨 Warning Signs
+                                    </h3>
+
+                                    <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc ml-6">
+                                        {disease.warningSigns?.map((sign, i) => (
+                                            <li key={i}>{sign}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Prevention */}
+                            {activeTab === "prevention" && (
+                                <div className="mt-6">
+                                    <h3 className="font-semibold flex items-center gap-2">
+                                        🛡 Prevention Steps
+                                    </h3>
+
+                                    <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc ml-6">
+                                        {disease.prevention?.map((step, i) => (
+                                            <li key={i}>{step}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Screening */}
+                            {activeTab === "screening" && (
+                                <div className="mt-6">
+                                    <h3 className="font-semibold flex items-center gap-2">
+                                        🩺 Screening & Testing
+                                    </h3>
+
+                                    <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc ml-6">
+                                        {disease.screening?.map((test, i) => (
+                                            <li key={i}>{test}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     ))
                 )}
