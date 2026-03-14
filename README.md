@@ -10,7 +10,7 @@ Team
 
 Tanvi Aher (Neo – local system username used in commits)
 
-Anushka Gupta
+Anushka Gupta (HCL Hacker - local system username used in commits)
 
 Ananya Thakur
 
